@@ -1,0 +1,144 @@
+MongoDB Search in Community Download from that msi folder for windows
+MongoDB Shell Download also windows and .msi
+mongod to start 
+mongosh to enter in shell and start copy paste bro 
+
+QUESTION 1 (Staff Collection)
+// Create DB
+use Institution
+
+// Insert Staff Data
+db.Staff.insertMany([
+{empid:1, empname:"Janaki", salary:90000, designation:"Manager"},
+{empid:2, empname:"Shree", salary:55000, designation:"HR"},
+{empid:3, empname:"Bhaskar", salary:45000, designation:"Accountant"},
+{empid:4, empname:"Niharika", salary:70000, designation:"Manager"},
+{empid:5, empname:"Rahul", salary:35000, designation:"Clerk"},
+{empid:6, empname:"Piyush", salary:48000, designation:"Accountant"},
+{empid:7, empname:"Vikas", salary:60000, designation:"Manager"},
+{empid:8, empname:"Sneha", salary:32000, designation:"Clerk"},
+{empid:9, empname:"Arjun", salary:110000, designation:"Director"},
+{empid:10, empname:"Manaki", salary:85000, designation:"Manager"}
+])
+
+// Display all
+db.Staff.find({})
+
+// Display specific fields
+db.Staff.find({},{"empid":1,"designation":1,_id:0})
+
+// Sort by salary
+db.Staff.find().sort({"salary":-1})
+
+// Condition
+db.Staff.find({$or:[{"designation":"Manager"},{"salary":{$gt:50000}}]})
+
+// Update
+db.Staff.update({"designation":"Accountant"},{$set:{"salary":45000}},{multi:true})
+
+// Delete
+db.Staff.remove({"salary":{$gt:100000}})
+
+QUESTION 2 (Student Collection)
+
+// Create Database
+use Institution
+
+// Create Collection (optional, auto-creates on insert)
+db.createCollection("Student")
+
+// Insert Student Data
+db.Student.insertMany([
+{RollNo:1,Name:"Janaki",Class:"BSc",TotalMarks:350},
+{RollNo:2,Name:"Shree",Class:"MSc",TotalMarks:420},
+{RollNo:3,Name:"Bhaskar",Class:"BSc",TotalMarks:280},
+{RollNo:4,Name:"Kiran",Class:"MSc",TotalMarks:450},
+{RollNo:5,Name:"Megha",Class:"BCom",TotalMarks:190},
+{RollNo:6,Name:"Arun",Class:"MSc",TotalMarks:410},
+{RollNo:7,Name:"Rohit",Class:"BSc",TotalMarks:300},
+{RollNo:8,Name:"Sneha",Class:"MSc",TotalMarks:470},
+{RollNo:9,Name:"Ajay",Class:"BCom",TotalMarks:150},
+{RollNo:10,Name:"Neha",Class:"BSc",TotalMarks:390}
+])
+
+// Display all
+db.Student.find({})
+
+// Sort
+db.Student.find().sort({"TotalMarks":-1})
+
+// Condition
+db.Student.find({$or:[{"Class":"MSc"},{"TotalMarks":{$gt:400}}]})
+
+// Delete
+db.Student.remove({"TotalMarks":{$lt:200}})
+
+QUESTION 3 (Map Reduce)
+
+question 2 commd for crating collection and all next whatebver there give full code same for quetion 3 also all commd 
+
+Got you 👍 You want complete commands (including create collection) exactly like practical — for Q2 & Q3 FULL CODE
+
+✅ 🔷 QUESTION 2 (FULL CODE WITH ALL COMMANDS)
+// Create Database
+use Institution
+
+// Create Collection (optional, auto-creates on insert)
+db.createCollection("Student")
+
+// Insert Data
+db.Student.insertMany([
+{RollNo:1,Name:"Janaki",Class:"BSc",TotalMarks:350},
+{RollNo:2,Name:"Shree",Class:"MSc",TotalMarks:420},
+{RollNo:3,Name:"Bhaskar",Class:"BSc",TotalMarks:280},
+{RollNo:4,Name:"Kiran",Class:"MSc",TotalMarks:450},
+{RollNo:5,Name:"Megha",Class:"BCom",TotalMarks:190},
+{RollNo:6,Name:"Arun",Class:"MSc",TotalMarks:410},
+{RollNo:7,Name:"Rohit",Class:"BSc",TotalMarks:300},
+{RollNo:8,Name:"Sneha",Class:"MSc",TotalMarks:470},
+{RollNo:9,Name:"Ajay",Class:"BCom",TotalMarks:150},
+{RollNo:10,Name:"Neha",Class:"BSc",TotalMarks:390}
+])
+
+// Display all documents
+db.Student.find({})
+
+// Sort descending
+db.Student.find().sort({"TotalMarks":-1})
+
+// Condition (MSc OR >400)
+db.Student.find({$or:[{"Class":"MSc"},{"TotalMarks":{$gt:400}}]})
+
+// Delete (marks < 200)
+db.Student.remove({"TotalMarks":{$lt:200}})
+✅ 🔷 QUESTION 3 (FULL CODE WITH ALL COMMANDS)
+// Create Database (same DB can be used)
+use Institution
+
+// Create Collection
+db.createCollection("sales")
+// Insert Sales Data
+db.sales.insertMany([
+{_id:1, product:"apple", amount:100},
+{_id:2, product:"banana", amount:150},
+{_id:3, product:"apple", amount:200},
+{_id:4, product:"oranges", amount:100},
+{_id:5, product:"banana", amount:350},
+{_id:6, product:"oranges", amount:200}
+])
+
+// Map Function
+var mapFunction = function(){
+  emit(this.product, this.amount);
+}
+
+// Reduce Function
+var reduceFunction = function(key, values){
+  return Array.sum(values);
+}
+
+// Execute MapReduce
+db.sales.mapReduce(mapFunction, reduceFunction, {out:"TotalSales"})
+
+// Show result
+db.TotalSales.find()
